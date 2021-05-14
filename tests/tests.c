@@ -40,7 +40,9 @@ unsigned stack_depth = 0;
 
 int main()
 {
+#ifndef TESTS_NO_PRINT
     printf("\033[1;34m\nVARIANT: \033[39m" STR2(PREFIX) "\033[0m\n");
+#endif
 #if 0
     fix16_t a      = 65536;
     fix16_t b      = -2147483648;
@@ -52,10 +54,10 @@ int main()
 
     double max = fix16_to_dbl(fix16_maximum);
     double min = fix16_to_dbl(fix16_minimum);
-
+#ifndef TESTS_NO_PRINT
     printf("result  %i, %.20f\n", result, fix16_to_dbl(result));
     printf("fresult %i, %.20f\n", fix16_from_dbl(fresult), fresult);
-
+#endif
     if ((fa / fb) > max || (fa / fb) < min)
     {
 #ifndef FIXMATH_NO_OVERFLOW

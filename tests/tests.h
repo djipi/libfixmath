@@ -14,18 +14,32 @@ extern unsigned stack_depth;
 #define COMMENT(x) printf("\n----" x "----\n");
 #define STR(x) #x
 #define STR2(x) STR(x)
+
+#ifdef TESTS_NO_PRINT
 #define TEST(x)                                                       \
     do                                                                \
     {                                                                 \
         ++stack_depth;                                                \
         if ((x))                                                      \
-        {                                                             \
+        {															  \
+			--stack_depth;                                            \
+            exit(1);                                                  \
+        }                                                             \
+        --stack_depth;                                                \
+    } while (0)
+#else
+#define TEST(x)                                                       \
+    do                                                                \
+    {                                                                 \
+        ++stack_depth;                                                \
+        if ((x))                                                      \
+        {							      							  \
             fflush(stdout);                                           \
             fflush(stderr);                                           \
             fprintf(stderr,                                           \
                     "\033[31;1m FAILED:\033[22;39m%*s" #x             \
                     " \033[0mat: " __FILE__ ":" STR2(__LINE__) " \n", \
-                    stack_depth, "");                                 \
+                    stack_depth, "");				      			  \
             --stack_depth;                                            \
             return 1;                                                 \
         }                                                             \
@@ -38,7 +52,18 @@ extern unsigned stack_depth;
         }                                                             \
         --stack_depth;                                                \
     } while (0)
+#endif 
 
+#ifdef TESTS_NO_PRINT
+#define ASSERT_NEAR_DOUBLE(a, b, eps, ...)                                   \
+    do                                                                       \
+    {                                                                        \
+        if ((delta((a), (b)) >= (eps)))                                      \
+        {                                                                    \
+            exit(1);                                                         \
+        }                                                                    \
+    } while (0)
+#else
 #define ASSERT_NEAR_DOUBLE(a, b, eps, ...)                                   \
     do                                                                       \
     {                                                                        \
@@ -56,7 +81,18 @@ extern unsigned stack_depth;
             return 1;                                                        \
         }                                                                    \
     } while (0)
+#endif
 
+#ifdef TESTS_NO_PRINT
+#define ASSERT_EQ_INT(a, b)                                                  \
+    do                                                                       \
+    {                                                                        \
+        if ((a) != (b))                                                      \
+        {                                                                    \
+            exit(1);                                                         \
+        }                                                                    \
+    } while (0)
+#else
 #define ASSERT_EQ_INT(a, b)                                                  \
     do                                                                       \
     {                                                                        \
@@ -71,7 +107,25 @@ extern unsigned stack_depth;
             return 1;                                                        \
         }                                                                    \
     } while (0)
+#endif
 
+#ifdef TESTS_NO_PRINT
+#define ASSERT_EQ_STR(a, b)     											 \
+    do                                                                       \
+    {                                                                        \
+        size_t la = strlen(a);                                               \
+        size_t lb = strlen(b);                                               \
+        if (la != lb)                                                        \
+        {                                                                    \
+            exit(1);                                                         \
+        }                                                                    \
+        int res = strncmp((a), (b), la);                                     \
+        if (res != 0)                                                        \
+        {                                                                    \
+            exit(1);                                                         \
+        }                                                                    \
+    } while (0)
+#else
 #define ASSERT_EQ_STR(a, b)                                                  \
     do                                                                       \
     {                                                                        \
@@ -99,6 +153,7 @@ extern unsigned stack_depth;
             return 1;                                                        \
         }                                                                    \
     } while (0)
+#endif
 
 extern const fix16_t testcases[102];
 
