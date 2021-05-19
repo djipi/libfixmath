@@ -4,7 +4,7 @@
 #if defined(__WIN32) || defined(__WIN64)
 LONGLONG HICLOCKS_PER_SEC = 0;
 
-void hiclock_init()
+void hiclock_init(void)
 {
 	LARGE_INTEGER freq;
 	QueryPerformanceFrequency(&freq);
@@ -12,7 +12,7 @@ void hiclock_init()
 }
 #endif
 
-hiclock_t hiclock()
+hiclock_t hiclock(void)
 {
 #if defined(__unix__)
 	struct timeval clocks;

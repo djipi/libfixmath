@@ -17,7 +17,7 @@ typedef uint64_t hiclock_t;
 #define PRIiHICLOCK PRIi64
 typedef LONGLONG hiclock_t;
 extern LONGLONG HICLOCKS_PER_SEC;
-extern void hiclock_init();
+extern void hiclock_init(void);
 #else
 #include <time.h>
 #define PRIuHICLOCK PRIu32
@@ -27,7 +27,7 @@ typedef clock_t hiclock_t;
 #define hiclock_init()
 #endif
 
-extern hiclock_t hiclock();
+extern hiclock_t hiclock(void);
 
 #endif
 
