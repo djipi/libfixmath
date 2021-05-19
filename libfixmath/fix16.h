@@ -25,6 +25,22 @@ extern "C"
 
 typedef int32_t fix16_t;
 
+#if defined(FIXMATH_DEFINEVALUES)
+#define FOUR_DIV_PI                 0x145F3
+#define _FOUR_DIV_PI2               0xFFFF9840
+#define X4_CORRECTION_COMPONENT     0x399A
+#define PI_DIV_4                    0x0000C90F
+#define THREE_PI_DIV_4              0x00025B2F
+
+#define fix16_maximum   0x7FFFFFFF
+#define fix16_minimum   0x80000000
+#define fix16_overflow  0x80000000
+
+#define fix16_pi    205887
+#define fix16_e     178145
+#define fix16_one   0x00010000
+#define fix16_eps   1
+#else
 static const fix16_t FOUR_DIV_PI  = 0x145F3;            /*!< Fix16 value of 4/PI */
 static const fix16_t _FOUR_DIV_PI2 = 0xFFFF9840;        /*!< Fix16 value of -4/PI² */
 static const fix16_t X4_CORRECTION_COMPONENT = 0x399A; 	/*!< Fix16 value of 0.225 */
@@ -39,6 +55,7 @@ static const fix16_t fix16_pi  = 205887;     /*!< fix16_t value of pi */
 static const fix16_t fix16_e   = 178145;     /*!< fix16_t value of e */
 static const fix16_t fix16_one = 0x00010000; /*!< fix16_t value of 1 */
 static const fix16_t fix16_eps = 1;          /*!< fix16_t epsilon */
+#endif
 
 /* Conversion functions between fix16_t and float/integer.
  * These are inlined to allow compiler to optimize away constant numbers
