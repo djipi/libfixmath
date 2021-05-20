@@ -23,7 +23,7 @@ tags
 .DS_Store
 .directory
 *.debug
-Makefile*
+#Makefile*
 *.prl
 *.app
 moc_*.cpp
@@ -49,15 +49,22 @@ Thumbs.db
 *.idb
 *.ilk
 *.pdb
-*.sln
+#*.sln
 *.suo
 *.vcproj
 *vcproj.*.*.user
 *.ncb
 *.sdf
 *.opensdf
-*.vcxproj
-*vcxproj.*
+#*.vcxproj
+#*vcxproj.*
+*vcxproj.user
+Win32/
+x64/
+.vs/
+
+# M68000 platforms
+Debug/
 
 # MinGW generated files
 *.Debug
@@ -133,7 +140,7 @@ qrc_*.cpp
 ui_*.h
 *.qmlc
 *.jsc
-Makefile*
+#Makefile*
 *build-*
 *.qm
 *.prl
