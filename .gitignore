@@ -65,6 +65,7 @@ x64/
 
 # M68000 platforms
 AJaguar/
+m68k/
 
 # MinGW generated files
 *.Debug
