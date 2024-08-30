@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libfixmath", "libfixmath.vcxproj", "{1DE63255-0470-458B-BCC9-3A3CBD637FCF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests.vcxproj", "{ECB70A39-5DDB-4B49-894F-15FB58106990}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1DE63255-0470-458B-BCC9-3A3CBD637FCF} = {1DE63255-0470-458B-BCC9-3A3CBD637FCF}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libfixmath", "..\..\libfixmath\vs2022\libfixmath.vcxproj", "{1DE63255-0470-458B-BCC9-3A3CBD637FCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +18,14 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECB70A39-5DDB-4B49-894F-15FB58106990}.Debug|x64.ActiveCfg = Debug|x64
+		{ECB70A39-5DDB-4B49-894F-15FB58106990}.Debug|x64.Build.0 = Debug|x64
+		{ECB70A39-5DDB-4B49-894F-15FB58106990}.Debug|x86.ActiveCfg = Debug|Win32
+		{ECB70A39-5DDB-4B49-894F-15FB58106990}.Debug|x86.Build.0 = Debug|Win32
+		{ECB70A39-5DDB-4B49-894F-15FB58106990}.Release|x64.ActiveCfg = Release|x64
+		{ECB70A39-5DDB-4B49-894F-15FB58106990}.Release|x64.Build.0 = Release|x64
+		{ECB70A39-5DDB-4B49-894F-15FB58106990}.Release|x86.ActiveCfg = Release|Win32
+		{ECB70A39-5DDB-4B49-894F-15FB58106990}.Release|x86.Build.0 = Release|Win32
 		{1DE63255-0470-458B-BCC9-3A3CBD637FCF}.Debug|x64.ActiveCfg = Debug|x64
 		{1DE63255-0470-458B-BCC9-3A3CBD637FCF}.Debug|x64.Build.0 = Debug|x64
 		{1DE63255-0470-458B-BCC9-3A3CBD637FCF}.Debug|x86.ActiveCfg = Debug|Win32
@@ -26,6 +39,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {C3BE74EA-AA2E-4912-B229-5CC51774E564}
+		SolutionGuid = {4C8245F9-0D0A-4D86-ABF8-64C0592B6D2A}
 	EndGlobalSection
 EndGlobal
