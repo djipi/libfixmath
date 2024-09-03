@@ -1,8 +1,10 @@
 #include "fix16.h"
-#include <stdbool.h>
-#ifndef FIXMATH_NO_CTYPE
-#include <ctype.h>
+#ifdef __KERNEL__
+#include <linux/types.h>
 #else
+#include <stdbool.h>
+#endif
+#if defined(FIXMATH_NO_CTYPE) || defined(__KERNEL__)
 static inline int isdigit(int c)
 {
     return c >= '0' && c <= '9';
@@ -12,6 +14,8 @@ static inline int isspace(int c)
 {
     return c == ' ' || c == '\r' || c == '\n' || c == '\t' || c == '\v' || c == '\f';
 }
+#else
+#include <ctype.h>
 #endif
 
 static const uint32_t scales[8] = {
@@ -71,7 +75,7 @@ void fix16_to_str(fix16_t value, char *buf, int decimals)
 
 fix16_t fix16_from_str(const char *buf)
 {
-    while (isspace(*buf))
+    while (isspace((unsigned char) *buf))
         buf++;
     
     /* Decode the sign */
@@ -82,16 +86,21 @@ fix16_t fix16_from_str(const char *buf)
     /* Decode the integer part */
     uint32_t intpart = 0;
     int count = 0;
-    while (isdigit(*buf))
+    while (isdigit((unsigned char) *buf))
     {
         intpart *= 10;
         intpart += *buf++ - '0';
         count++;
     }
     
+    #ifdef FIXMATH_NO_OVERFLOW
+    if (count == 0)
+        return fix16_overflow;
+    #else
     if (count == 0 || count > 5
         || intpart > 32768 || (!negative && intpart > 32767))
         return fix16_overflow;
+    #endif
     
     fix16_t value = intpart << 16;
     
@@ -102,7 +111,7 @@ fix16_t fix16_from_str(const char *buf)
         
         uint32_t fracpart = 0;
         uint32_t scale = 1;
-        while (isdigit(*buf) && scale < 100000)
+        while (isdigit((unsigned char) *buf) && scale < 100000)
         {
             scale *= 10;
             fracpart *= 10;
@@ -115,7 +124,7 @@ fix16_t fix16_from_str(const char *buf)
     /* Verify that there is no garbage left over */
     while (*buf != '\0')
     {
-        if (!isdigit(*buf) && !isspace(*buf))
+        if (!isdigit((unsigned char) *buf) && !isspace((unsigned char) *buf))
             return fix16_overflow;
         
         buf++;

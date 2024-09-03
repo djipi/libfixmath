@@ -8,7 +8,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests.vcxproj", "{
 		{1DE63255-0470-458B-BCC9-3A3CBD637FCF} = {1DE63255-0470-458B-BCC9-3A3CBD637FCF}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libfixmath", "..\..\libfixmath\vs2019\libfixmath.vcxproj", "{1DE63255-0470-458B-BCC9-3A3CBD637FCF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libfixmath", "..\..\libfixmath\vs2022\libfixmath.vcxproj", "{1DE63255-0470-458B-BCC9-3A3CBD637FCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

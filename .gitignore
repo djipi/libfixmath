@@ -64,7 +64,10 @@ x64/
 .vs/
 
 # M68000 platforms
-Debug/
+AJaguar/Debug
+AJaguar/Release
+m68k/Debug
+m68k/Release
 
 # MinGW generated files
 *.Debug
