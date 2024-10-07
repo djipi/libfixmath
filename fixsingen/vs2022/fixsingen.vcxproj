@@ -92,7 +92,7 @@
     <ClCompile>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;FIXMATH_NO_ROUNDING;FIXMATH_NO_OVERFLOW;FIXMATH_NO_64BIT;FIXMATH_OPTIMIZE_8BIT;FIXMATH_SIN_LUT;FIXMATH_FAST_SIN;FIXMATH_DEFINEVALUES</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;FIXMATH_FAST_SIN;FIXMATH_NO_64BIT;FIXMATH_CACHE;FIXMATH_HARD_DIVISION;FIXMATH_NO_OVERFLOW;FIXMATH_NO_ROUNDING;FIXMATH_NO_OPTIMIZE_8BIT;FIXMATH_CTYPE;FIXMATH_DEFINEVALUES;FIXMATH_SIN_LUT</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)asm\</AssemblerListingLocation>
@@ -109,7 +109,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;FIXMATH_NO_ROUNDING;FIXMATH_NO_OVERFLOW;FIXMATH_NO_64BIT;FIXMATH_OPTIMIZE_8BIT;FIXMATH_SIN_LUT;FIXMATH_FAST_SIN;FIXMATH_DEFINEVALUES</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;FIXMATH_NO_ROUNDING;FIXMATH_NO_OVERFLOW;FIXMATH_NO_64BIT;FIXMATH_OPTIMIZE_8BIT;FIXMATH_SIN_LUT;FIXMATH_FAST_SIN;FIXMATH_DEFINEVALUES;FIXMATH_CTYPE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)asm\</AssemblerListingLocation>
@@ -126,7 +126,7 @@
     <ClCompile>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;FIXMATH_NO_ROUNDING;FIXMATH_NO_OVERFLOW;FIXMATH_NO_64BIT;FIXMATH_OPTIMIZE_8BIT;FIXMATH_SIN_LUT;FIXMATH_FAST_SIN;FIXMATH_DEFINEVALUES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;FIXMATH_FAST_SIN;FIXMATH_NO_64BIT;FIXMATH_CACHE;FIXMATH_HARD_DIVISION;FIXMATH_NO_OVERFLOW;FIXMATH_NO_ROUNDING;FIXMATH_NO_OPTIMIZE_8BIT;FIXMATH_CTYPE;FIXMATH_DEFINEVALUES;FIXMATH_SIN_LUT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..</AdditionalIncludeDirectories>
     </ClCompile>
@@ -141,7 +141,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;FIXMATH_NO_ROUNDING;FIXMATH_NO_OVERFLOW;FIXMATH_NO_64BIT;FIXMATH_OPTIMIZE_8BIT;FIXMATH_SIN_LUT;FIXMATH_FAST_SIN;FIXMATH_DEFINEVALUES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;FIXMATH_FAST_SIN;FIXMATH_NO_64BIT;FIXMATH_CACHE;FIXMATH_HARD_DIVISION;FIXMATH_NO_OVERFLOW;FIXMATH_NO_ROUNDING;FIXMATH_NO_OPTIMIZE_8BIT;FIXMATH_CTYPE;FIXMATH_DEFINEVALUES;FIXMATH_SIN_LUT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AssemblerListingLocation>$(IntDir)asm\</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)obj\</ObjectFileName>

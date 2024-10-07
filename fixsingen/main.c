@@ -18,8 +18,12 @@ int main(int argc, char** argv) {
 	fprintf(fp, "\n");
 
 	fix16_t fix16_sin_lut_count = (fix16_pi >> 1);
-	// fix16_t fix16_sin_lut[fix16_sin_lut_count];  // Modified to fix a compilation error
+	#if 0
+	fix16_t fix16_sin_lut[fix16_sin_lut_count];
+	#else
+	  // Modified to fix a compilation error
 	fix16_t fix16_sin_lut[(fix16_pi >> 1)];
+	#endif
 
 	uintptr_t i;
 	for(i = 0; i < fix16_sin_lut_count; i++)
