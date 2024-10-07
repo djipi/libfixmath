@@ -34,6 +34,7 @@ Thumbs.db
 *.rc
 /.qmake.cache
 /.qmake.stash
+*.bak
 
 # qtcreator generated files
 *.pro.user*
@@ -63,11 +64,15 @@ Win32/
 x64/
 .vs/
 
+# Atari Jaguar platform
+*/AJaguar/Debug/
+*/AJaguar/Release/
+*/AJaguar/*.elf
+
 # M68000 platforms
-AJaguar/Debug
-AJaguar/Release
-m68k/Debug
-m68k/Release
+*/m68k/Debug/
+*/m68k/Release/
+*/m68k/*.elf
 
 # MinGW generated files
 *.Debug
@@ -171,4 +176,3 @@ compile_commands.json
 
 benchmarks/testcases.c
 
-*.elf
