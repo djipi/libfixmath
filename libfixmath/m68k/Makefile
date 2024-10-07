@@ -2,8 +2,36 @@
 
 # Parameters list
 #
-# env is used
-# cmd sets the command / order to be used
+# $2: env is used
+# $1: cmd sets the command / order to be used
+
+
+# Text/message colors
+# Green (0;32)        : Compilation
+# Brown/Orange (0;33) : Data & Source transformation
+# Purple (0;35)       : Library
+# Cyan (00;36)        : Reporting
+# Light Red (1;31)    : Remove/Delete data
+# Light Green (1;32)  : Assembling
+# Yellow (1;33)       : Updating
+# Light Cyan (1;36)   : Config reading
+# White (1;37)        : Creation directory
+COLOR_ASSEMBLER = 01;32
+COLOR_COMPILE   = 00;32
+COLOR_LIBRARY   = 00;35
+COLOR_MKDIR     = 01;37
+COLOR_REPORTS	= 00;36
+COLOR_REMOVE    = 01;31
+COLOR_TRANSFORM = 00;33
+COLOR_UPDATING  = 01;33
+COLOR_CONFIG    = 01;36
+
+
+# Check perl setup
+DOT := $(shell command -v perl 2> /dev/null)
+ifndef DOT
+$(error No setup for Perl)
+endif
 
 
 # Environement detections
@@ -25,12 +53,17 @@ endif
 
 
 # Configuration
+#
+# Compilation verbose
+Q := @
+#
+# Include the tools executables and paths
 include config.mk
 
 # Get asm from source C (yes, no)
 GET_SFromC = no
 # Current version
-CURRENT_VERSION = 1.0
+CURRENT_VERSION = 1.1
 
 # Source C directories list
 #
@@ -57,14 +90,12 @@ DIR_LIB = ./$(env)/lib/$(CURRENT_VERSION)
 
 # C compiler information
 #
+# Defines
+include Defines
+#
 # GCC
 #
 ifeq ($(COMPILER_C_TYPE), gcc)
-ACCURACY = -DFIXMATH_NO_ROUNDING -DFIXMATH_NO_OVERFLOW
-PLATFORM = -DFIXMATH_NO_64BIT -DFIXMATH_OPTIMIZE_8BIT
-COMPILE = -DFIXMATH_DEFINEVALUES -DFIXMATH_NO_CTYPE
-# -DFIXMATH_NO_CACHE
-ALGORITHMS = -DFIXMATH_SIN_LUT -DFIXMATH_FAST_SIN
 CCOpt = -m68000 -Wall -MMD -MP
 CCDefine = -D__JAGUAR__ -D$(VERSION) $(ACCURACY) $(PLATFORM) $(ALGORITHMS) $(COMPILE)
 # -fno-align-functions -Wextra
@@ -102,7 +133,7 @@ endif
 # -D_M_M68K
 #-D NO_LIBGCC_A -D INT_8_BITS -D _SUPPORT_ARGS -D_USE_STDINT 
 #-IC:/SDK/Jaguar/jlibc-0.5.10/include -IC:/SDK/Jaguar/glibc-2.20/include
-CC_INC = -I$(CCINC1) -I$(CCINC2)
+CC_INC = -IC:/Projects/Lib-M68K/include -I$(CCINC1) -I$(CCINC2)
 # -IC:\Projects\Lib-M68K\include
 #
 FIXMATH_INC = -I./..
@@ -181,10 +212,15 @@ endif
 AR_OPT = cru
 # rvs
 ARAN_OPT =
-LIBFIXMATH = $(DIR_LIB)/libfixmath-$(CURRENT_VERSION)_$(env)_$(COMPILER_SELECT).$(FORMAT).a
+LIBFIXMATH = libfixmath-$(CURRENT_VERSION)_$(env)_$(COMPILER_SELECT).$(FORMAT).a
 
 # Tools information
 TODOS_OPT = -o -u -v
+
+
+# Extra dependence list for compilation
+#
+EXTRA_DEPEND_LIST = Makefile Defines config.mk
 
 
 # Check directory existence
@@ -193,6 +229,9 @@ ifneq ($(cmd), makedirs)
 ifneq ($(cmd), config)
 ifeq ("$(wildcard $(O_FIXMATH_DIR))","")
 $(error the directories to create $(LIBFIXMATH) don't exist, please use makedirs command)
+endif
+ifeq ("$(wildcard $(DIR_LIB))","")
+$(error the directory to create libfixmath $(CURRENT_VERSION) doesn't exist, please use makedirs command)
 endif
 endif
 endif
@@ -204,7 +243,7 @@ rebuild:	clean \
 			all
 			
 all:	compile \
-		link
+		library
 
 
 # Cross Platform Fixed Point Maths Library
@@ -246,69 +285,87 @@ include $(ObjFIXMATH_d)
 endif
 #
 $(O_FIXMATH_DIR)/uint32.d:
-$(O_FIXMATH_DIR)/uint32.o: $(C_FIXMATH_DIR)/uint32.c $(O_FIXMATH_DIR)/uint32.d makefile
-	$(CCProg_F)
-$(S_FIXMATH_DIR)/uint32.s: $(C_FIXMATH_DIR)/uint32.c $(O_FIXMATH_DIR)/uint32.d makefile
-	$(CCProg_S)
+$(O_FIXMATH_DIR)/uint32.o: $(C_FIXMATH_DIR)/uint32.c $(O_FIXMATH_DIR)/uint32.d $(EXTRA_DEPEND_LIST)
+	@echo -e "\033[01;33m***\033[00;32m Compiling $<...\033[00m"
+	$(Q)$(CCProg_F)
+$(S_FIXMATH_DIR)/uint32.s: $(C_FIXMATH_DIR)/uint32.c $(O_FIXMATH_DIR)/uint32.d $(EXTRA_DEPEND_LIST)
+	@echo -e "\033[01;33m***\033[$(COLOR_TRANSFORM)m Creates the $@ file from $<...\033[00m"
+	$(Q)$(CCProg_S)
 #
 $(O_FIXMATH_DIR)/fract32.d:
-$(O_FIXMATH_DIR)/fract32.o: $(C_FIXMATH_DIR)/fract32.c $(O_FIXMATH_DIR)/fract32.d makefile
-	$(CCProg_F)
-$(S_FIXMATH_DIR)/fract32.s: $(C_FIXMATH_DIR)/fract32.c $(O_FIXMATH_DIR)/fract32.d makefile
-	$(CCProg_S)
+$(O_FIXMATH_DIR)/fract32.o: $(C_FIXMATH_DIR)/fract32.c $(O_FIXMATH_DIR)/fract32.d $(EXTRA_DEPEND_LIST)
+	@echo -e "\033[01;33m***\033[00;32m Compiling $<...\033[00m"
+	$(Q)$(CCProg_F)
+$(S_FIXMATH_DIR)/fract32.s: $(C_FIXMATH_DIR)/fract32.c $(O_FIXMATH_DIR)/fract32.d $(EXTRA_DEPEND_LIST)
+	@echo -e "\033[01;33m***\033[$(COLOR_TRANSFORM)m Creates the $@ file from $<...\033[00m"
+	$(Q)$(CCProg_S)
 #
 $(O_FIXMATH_DIR)/fix16_trig.d:
-$(O_FIXMATH_DIR)/fix16_trig.o: $(C_FIXMATH_DIR)/fix16_trig.c $(O_FIXMATH_DIR)/fix16_trig.d makefile
-	$(CCProg_F)	
-$(S_FIXMATH_DIR)/fix16_trig.s: $(C_FIXMATH_DIR)/fix16_trig.c $(O_FIXMATH_DIR)/fix16_trig.d makefile
-	$(CCProg_S)
+$(O_FIXMATH_DIR)/fix16_trig.o: $(C_FIXMATH_DIR)/fix16_trig.c $(O_FIXMATH_DIR)/fix16_trig.d $(EXTRA_DEPEND_LIST)
+	@echo -e "\033[01;33m***\033[00;32m Compiling $<...\033[00m"
+	$(Q)$(CCProg_F)	
+$(S_FIXMATH_DIR)/fix16_trig.s: $(C_FIXMATH_DIR)/fix16_trig.c $(O_FIXMATH_DIR)/fix16_trig.d $(EXTRA_DEPEND_LIST)
+	@echo -e "\033[01;33m***\033[$(COLOR_TRANSFORM)m Creates the $@ file from $<...\033[00m"
+	$(Q)$(CCProg_S)
 #
 $(O_FIXMATH_DIR)/fix16_str.d:
-$(O_FIXMATH_DIR)/fix16_str.o: $(C_FIXMATH_DIR)/fix16_str.c $(O_FIXMATH_DIR)/fix16_str.d makefile
-	$(CCProg_F)	
-$(S_FIXMATH_DIR)/fix16_str.s: $(C_FIXMATH_DIR)/fix16_str.c $(O_FIXMATH_DIR)/fix16_str.d makefile
-	$(CCProg_S)
+$(O_FIXMATH_DIR)/fix16_str.o: $(C_FIXMATH_DIR)/fix16_str.c $(O_FIXMATH_DIR)/fix16_str.d $(EXTRA_DEPEND_LIST)
+	@echo -e "\033[01;33m***\033[00;32m Compiling $<...\033[00m"
+	$(Q)$(CCProg_F)	
+$(S_FIXMATH_DIR)/fix16_str.s: $(C_FIXMATH_DIR)/fix16_str.c $(O_FIXMATH_DIR)/fix16_str.d $(EXTRA_DEPEND_LIST)
+	@echo -e "\033[01;33m***\033[$(COLOR_TRANSFORM)m Creates the $@ file from $<...\033[00m"
+	$(Q)$(CCProg_S)
 #
 $(O_FIXMATH_DIR)/fix16_sqrt.d:
-$(O_FIXMATH_DIR)/fix16_sqrt.o: $(C_FIXMATH_DIR)/fix16_sqrt.c $(O_FIXMATH_DIR)/fix16_sqrt.d makefile
-	$(CCProg_F)	
-$(S_FIXMATH_DIR)/fix16_sqrt.s: $(C_FIXMATH_DIR)/fix16_sqrt.c $(O_FIXMATH_DIR)/fix16_sqrt.d makefile
-	$(CCProg_S)
+$(O_FIXMATH_DIR)/fix16_sqrt.o: $(C_FIXMATH_DIR)/fix16_sqrt.c $(O_FIXMATH_DIR)/fix16_sqrt.d $(EXTRA_DEPEND_LIST)
+	@echo -e "\033[01;33m***\033[00;32m Compiling $<...\033[00m"
+	$(Q)$(CCProg_F)	
+$(S_FIXMATH_DIR)/fix16_sqrt.s: $(C_FIXMATH_DIR)/fix16_sqrt.c $(O_FIXMATH_DIR)/fix16_sqrt.d $(EXTRA_DEPEND_LIST)
+	@echo -e "\033[01;33m***\033[$(COLOR_TRANSFORM)m Creates the $@ file from $<...\033[00m"
+	$(Q)$(CCProg_S)
 #
 $(O_FIXMATH_DIR)/fix16_fft.d:
-$(O_FIXMATH_DIR)/fix16_fft.o: $(C_FIXMATH_DIR)/fix16_fft.c $(O_FIXMATH_DIR)/fix16_fft.d makefile
-	$(CCProg_F)	
-$(S_FIXMATH_DIR)/fix16_fft.s: $(C_FIXMATH_DIR)/fix16_fft.c $(O_FIXMATH_DIR)/fix16_fft.d makefile
-	$(CCProg_S)
+$(O_FIXMATH_DIR)/fix16_fft.o: $(C_FIXMATH_DIR)/fix16_fft.c $(O_FIXMATH_DIR)/fix16_fft.d $(EXTRA_DEPEND_LIST)
+	@echo -e "\033[01;33m***\033[00;32m Compiling $<...\033[00m"
+	$(Q)$(CCProg_F)	
+$(S_FIXMATH_DIR)/fix16_fft.s: $(C_FIXMATH_DIR)/fix16_fft.c $(O_FIXMATH_DIR)/fix16_fft.d $(EXTRA_DEPEND_LIST)
+	@echo -e "\033[01;33m***\033[$(COLOR_TRANSFORM)m Creates the $@ file from $<...\033[00m"
+	$(Q)$(CCProg_S)
 #
 $(O_FIXMATH_DIR)/fix16_exp.d:
-$(O_FIXMATH_DIR)/fix16_exp.o: $(C_FIXMATH_DIR)/fix16_exp.c $(O_FIXMATH_DIR)/fix16_exp.d makefile
-	$(CCProg_F)
-$(S_FIXMATH_DIR)/fix16_exp.s: $(C_FIXMATH_DIR)/fix16_exp.c $(O_FIXMATH_DIR)/fix16_exp.d makefile
-	$(CCProg_S)
+$(O_FIXMATH_DIR)/fix16_exp.o: $(C_FIXMATH_DIR)/fix16_exp.c $(O_FIXMATH_DIR)/fix16_exp.d $(EXTRA_DEPEND_LIST)
+	@echo -e "\033[01;33m***\033[00;32m Compiling $<...\033[00m"
+	$(Q)$(CCProg_F)
+$(S_FIXMATH_DIR)/fix16_exp.s: $(C_FIXMATH_DIR)/fix16_exp.c $(O_FIXMATH_DIR)/fix16_exp.d $(EXTRA_DEPEND_LIST)
+	@echo -e "\033[01;33m***\033[$(COLOR_TRANSFORM)m Creates the $@ file from $<...\033[00m"
+	$(Q)$(CCProg_S)
 #
 $(O_FIXMATH_DIR)/fix16.d:
-$(O_FIXMATH_DIR)/fix16.o: $(C_FIXMATH_DIR)/fix16.c $(O_FIXMATH_DIR)/fix16.d makefile
-	$(CCProg_F)
-$(S_FIXMATH_DIR)/fix16.s: $(C_FIXMATH_DIR)/fix16.c $(O_FIXMATH_DIR)/fix16.d makefile
-	$(CCProg_S)
+$(O_FIXMATH_DIR)/fix16.o: $(C_FIXMATH_DIR)/fix16.c $(O_FIXMATH_DIR)/fix16.d $(EXTRA_DEPEND_LIST)
+	@echo -e "\033[01;33m***\033[00;32m Compiling $<...\033[00m"
+	$(Q)$(CCProg_F)
+$(S_FIXMATH_DIR)/fix16.s: $(C_FIXMATH_DIR)/fix16.c $(O_FIXMATH_DIR)/fix16.d $(EXTRA_DEPEND_LIST)
+	@echo -e "\033[01;33m***\033[$(COLOR_TRANSFORM)m Creates the $@ file from $<...\033[00m"
+	$(Q)$(CCProg_S)
 
 
 reports:	report_stack
 
 report_stack:	$(REPORTS_DIR)/$(LIBFIXMATH).StackReport.txt
 
-$(REPORTS_DIR)/$(LIBFIXMATH).StackReport.txt: $(ObjFIXMATH) makefile Build.bat
-	c:/Perl64/bin/perl.exe avstack.pl $(ObjFIXMATH) > $@
+$(REPORTS_DIR)/$(LIBFIXMATH).StackReport.txt: $(ObjFIXMATH) $(DIR_LIB)/$(LIBFIXMATH) makefile Build.bat
+	@echo -e "\033[01;33m***\033[$(COLOR_REPORTS)m Reporting stack usage from $<...\033[00m"
+	$(Q)perl.exe avstack.pl $(ObjFIXMATH) > $@
 
 
-link:	$(LIBFIXMATH)
+library:	$(DIR_LIB)/$(LIBFIXMATH)
 
 
-# OS Jag library creation
-$(LIBFIXMATH):	$(ObjFIXMATH)
-	$(ARProg) $(AR_OPT) $@ $(ObjFIXMATH)
-	$(ARANProg) $(ARAN_OPT) $(LIBFIXMATH)
+# libfixmath's library creation
+$(DIR_LIB)/$(LIBFIXMATH):	$(ObjFIXMATH) $(ObjFIXMATH_s)
+	@echo -e "\033[01;33m***\033[$(COLOR_LIBRARY)m Create the library $(LIBFIXMATH)...\033[00m"
+	$(Q)$(ARProg) $(AR_OPT) $@ $(ObjFIXMATH)
+	$(Q)$(ARANProg) $(ARAN_OPT) $@
 
 
 # Project clean-up
@@ -322,27 +379,33 @@ clean:	clean_obj \
 #
 # Delete the object files
 clean_obj:
-		rm -f $(O_FIXMATH_DIR)/*.o
+		@echo -e "\033[01;33m***\033[$(COLOR_REMOVE)m Removing the obj files...\033[00m"	
+		$(Q)rm -f $(O_FIXMATH_DIR)/*.o
 #
 # Delete the stack usage files
 clean_su:
-		rm -f $(O_FIXMATH_DIR)/*.su
+		@echo -e "\033[01;33m***\033[$(COLOR_REMOVE)m Removing the stack usage generated files...\033[00m"	
+		$(Q)rm -f $(O_FIXMATH_DIR)/*.su
 #
 # Delete the dependence files
 clean_d:
-		rm -f $(O_FIXMATH_DIR)/*.d
+		@echo -e "\033[01;33m***\033[$(COLOR_REMOVE)m Removing the dependency files...\033[00m"	
+		$(Q)rm -f $(O_FIXMATH_DIR)/*.d
 #
 # Delete the asm files generated by compilation		
 clean_s:
-		rm -f $(S_FIXMATH_DIR)/*.s
+		@echo -e "\033[01;33m***\033[$(COLOR_REMOVE)m Removing the asm sources generated from C compilation...\033[00m"	
+		$(Q)rm -f $(S_FIXMATH_DIR)/*.s
 #
 # Delete the libs
 clean_lib:
-		rm -f $(LIBFIXMATH)
+		@echo -e "\033[01;33m***\033[$(COLOR_REMOVE)m Removing the library file...\033[00m"	
+		$(Q)rm -f $(DIR_LIB)/$(LIBFIXMATH)
 #
 # Delete reports
 clean_report:
-		rm -f $(REPORTS_DIR)/*.txt
+		@echo -e "\033[01;33m***\033[$(COLOR_REMOVE)m Removing the report files...\033[00m"	
+		$(Q)rm -f $(REPORTS_DIR)/*.txt
 		
 
 # Create directories
@@ -356,36 +419,51 @@ makedirs:	mkdir_reports \
 #
 # Create the reports files directories
 mkdir_reports:
-		mkdir -p $(REPORTS_DIR)
+		@echo -e "\033[01;33m***\033[$(COLOR_MKDIR)m Creating the reports directories...\033[00m"
+		$(Q)mkdir -p $(REPORTS_DIR)
 #
 # Create the object, stack usage and dependence files directories
 mkdir_obj:
 mkdir_su:
 mkdir_d:
-		mkdir -p $(O_FIXMATH_DIR)
+		@echo -e "\033[01;33m***\033[$(COLOR_MKDIR)m Creating the dependencies and objs directories...\033[00m"
+		$(Q)mkdir -p $(O_FIXMATH_DIR)
 #
 # Create the library directory
 mkdir_lib:
-		mkdir -p $(DIR_LIB)
+		@echo -e "\033[01;33m***\033[$(COLOR_MKDIR)m Creating the library directory...\033[00m"
+		$(Q)mkdir -p $(DIR_LIB)
 #
 # Create the asm files, generated by compilation, directories		
 mkdir_s:
-		mkdir -p $(S_FIXMATH_DIR)
+		@echo -e "\033[01;33m***\033[$(COLOR_MKDIR)m Creating the generated asm directories...\033[00m"
+		$(Q)mkdir -p $(S_FIXMATH_DIR)
 
 		
 # Display configuration
 #
 config:	config_command \
-		config_generic
+		config_generic \
+		config_compilation
 #
 # Display the command from batch
 config_command:
-	$(info ----------- Command)
-	$(info Version   : $(env))
+	$(info ------------------ Command)
+	$(info Version          : $(env))
 #
 # Display generic information
 config_generic:
-	$(info ----------- Generic)
-	$(info Format    : $(FORMAT))
-	$(info Assembler : $(ASM))
-	$(info Compiler  : $(COMPILER_C_TYPE) $(COMPILER_C_VERSION))
+	$(info ------------------ Generic)
+	$(info Format           : $(FORMAT))
+	$(info Assembler        : $(ASM))
+	$(info Compiler         : $(COMPILER_C_TYPE) $(COMPILER_C_VERSION))
+#
+# Display the compilation information
+config_compilation:
+	$(info ------------------ Compilation)
+	$(info Definitions      : $(sort $(CCDefine)))
+	$(info C Include        : $(CC_INC))
+	$(info ASM from C       : $(GET_SFromC))
+	$(info Options          : $(sort $(CCOpt)))
+	$(info Options C->ASM   : $(GET_SFromC_Option))
+	

@@ -35,7 +35,7 @@ echo:build FULL
 echo -----
 echo:build HELP
 echo -----
-echo "build <all | clean[_...] | compile | config | link | makedirs | rebuild | report_[...] | reports> <ALL | Debug | Profile | Release>"
+echo "build <all | clean[_...] | compile | config | library | makedirs | rebuild | report_[...] | reports> <ALL | Debug | Profile | Release>"
 echo Note: Debug is set by default
 if %1.==HELP. goto HELP
 goto end
@@ -61,11 +61,11 @@ echo FULL : build all environements (Debug, etc.)
 echo -----
 echo HELP : display this help page
 echo -----
-echo link : create the library
+echo library : create the library
 echo -----
 echo makedirs : create the necessary directories
 echo -----
-echo rebuild : clean, and rebuild sources to make a fresh new build
+echo rebuild : clean, and rebuild sources to make a fresh new library
 echo -----
 echo report_[...] must be completed with:
 echo stack : generate a stack usage report based on generated *.su files

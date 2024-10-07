@@ -1,15 +1,22 @@
+# Makefile config for the libfixmath's M68K library
+
+
+# Format selection (elf, aout, coff)
+FORMAT = elf
+
+
 # Assembler selection (smac, vasm, rmac)
 ASM = vasm
 # VASM information (madmac, std, or mot)
 ifeq ($(ASM), vasm)
 VASM_SUPPORT = madmac
 endif
-# Format selection (elf, aout, coff)
-FORMAT = elf
 # Compiler C type (gcc, vbcc)
 COMPILER_C_TYPE	= gcc
 # Compiler C version depend his type
-COMPILER_C_VERSION = 9.1.0
+COMPILER_C_VERSION = 5.5.0
+# Compiler tools version depend his type
+COMPILER_TOOLS_VERSION = 13.2.0
 # Compiler selection based on type and version
 COMPILER_C = $(COMPILER_C_TYPE)$(COMPILER_C_VERSION)
 # Compiler selection based on type, and version
@@ -21,10 +28,10 @@ LINKER_SELECT =	vlink
 # Linker information
 #
 ifeq ($(LINKER_SELECT), vlink)
-LNKProg = C:/VB/Vlink/vlink0.16h
+LNKProg = C:/VB/vlink0.17a
 else
 ifeq ($(LINKER_SELECT), rln)
-LNKProg = C:/AJaguar/RlnRmac/rln
+LNKProg = C:/Tools/RlnRmac/rln
 else
 ifeq ($(LINKER_SELECT), sln)
 LNKProg = C:/AJaguar/SlnSmac/sln
@@ -42,13 +49,13 @@ endif
 # ASM information
 #
 ifeq ($(ASM), vasm)
-ASMProg	= C:/VB/Vasmm68k/vasmm68k_$(VASM_SUPPORT)_win32_1.8j
+ASMProg	= C:/VB/Vasmm68k/vasmm68k_$(VASM_SUPPORT)_win32_1.9f
 else
 ifeq ($(ASM), smac)
 ASMProg	= C:/AJaguar/SlnSmac/smac
 else
-ifeq ($(ASM), smac)
-ASMProg	= C:/AJaguar/RlnRmac/rmac
+ifeq ($(ASM), rmac)
+ASMProg	= C:/Tools/RlnRmac/rmac
 else
 $(error ASM is not set or wrongly dispatched)
 endif
@@ -56,121 +63,47 @@ endif
 endif
 
 
-# Tools information
-TODOS = C:\Tools\tfd1713\todos
+# String manipulation tools
+TODOS = C:/Tools/tfd1713/todos
+
+# Tools executables
+ifneq ("$(wildcard C:/GNU/m68k-$(FORMAT)-gcc-$(COMPILER_TOOLS_VERSION)/bin)","")
+ARProg = C:/GNU/m68k-$(FORMAT)-gcc-$(COMPILER_TOOLS_VERSION)/bin/m68k-$(FORMAT)-ar
+ARANProg = C:/GNU/m68k-$(FORMAT)-gcc-$(COMPILER_TOOLS_VERSION)/bin/m68k-$(FORMAT)-ranlib
+readelf	= C:/GNU/m68k-$(FORMAT)-gcc-$(COMPILER_TOOLS_VERSION)/bin/m68k-$(FORMAT)-readelf
+stripelf = C:/GNU/m68k-$(FORMAT)-gcc-$(COMPILER_TOOLS_VERSION)/bin/m68k-$(FORMAT)-strip
+objdump = C:/GNU/m68k-$(FORMAT)-gcc-$(COMPILER_TOOLS_VERSION)/bin/m68k-$(FORMAT)-objdump
+else
+$(error GNU toolchain $(COMPILER_TOOLS_VERSION) not found)
+endif
 
 
-# C compiler & library information
+# C compiler, headers & library information
 #
 # GCC
 #
 ifeq ($(COMPILER_C_TYPE), gcc)
-#
-# ELF format
-ifeq ($(FORMAT), elf)
-# ELF gcc compiler
-ifneq ("$(wildcard C:/GNU/m68k-elf-$(COMPILER_C_VERSION)/m68k-elf/bin)","")
-CCProg = C:/GNU/m68k-elf-$(COMPILER_C_VERSION)/m68k-elf/bin/m68k-elf-gcc
-ARProg = C:/GNU/m68k-elf-$(COMPILER_C_VERSION)/m68k-elf/bin/m68k-elf-ar
-ARANProg = C:/GNU/m68k-elf-$(COMPILER_C_VERSION)/m68k-elf/bin/m68k-elf-ranlib
-readelf	= C:/GNU/m68k-elf-$(COMPILER_C_VERSION)/m68k-elf/bin/m68k-elf-readelf
-stripelf = C:/GNU/m68k-elf-gcc-$(COMPILER_C_VERSION)/bin/m68k-elf-strip
-objdump = C:/GNU/m68k-elf-$(COMPILER_C_VERSION)/m68k-elf/bin/m68k-elf-objdump
+# gcc compiler
+ifneq ("$(wildcard C:/GNU/m68k-$(FORMAT)-$(COMPILER_SELECT)/bin)","")
+CCProg = C:/GNU/m68k-$(FORMAT)-$(COMPILER_SELECT)/bin/m68k-$(FORMAT)-gcc
 else
-ifneq ("$(wildcard C:/GNU/m68k-elf-gcc$(COMPILER_C_VERSION)/bin)","")
-CCProg = C:/GNU/m68k-elf-gcc$(COMPILER_C_VERSION)/bin/m68k-elf-gcc
-ARProg = C:/GNU/m68k-elf-gcc$(COMPILER_C_VERSION)/bin/m68k-elf-ar
-ARANProg = C:/GNU/m68k-elf-gcc$(COMPILER_C_VERSION)/bin/m68k-elf-ranlib
-readelf	= C:/GNU/m68k-elf-gcc$(COMPILER_C_VERSION)/bin/m68k-elf-readelf
-stripelf = C:/GNU/m68k-elf-gcc$(COMPILER_C_VERSION)/bin/m68k-elf-strip
-objdump = C:/GNU/m68k-elf-gcc$(COMPILER_C_VERSION)/bin/m68k-elf-objdump
+$(error $(COMPILER_SELECT) is not set or wrongly dispatched)
+endif
+# gcc headers library
+ifneq ("$(wildcard C:/GNU/m68k-$(FORMAT)-$(COMPILER_SELECT)/m68k-$(FORMAT)/include)","")
+CCINC1 = C:/GNU/m68k-$(FORMAT)-$(COMPILER_SELECT)/m68k-$(FORMAT)/include
+CCINC2 = C:/GNU/m68k-$(FORMAT)-$(COMPILER_SELECT)/lib/gcc/m68k-$(FORMAT)/$(COMPILER_C_VERSION)/include
 else
-ifneq ("$(wildcard C:/GNU/MinGW-m68k-elf-glo-$(COMPILER_C_VERSION)/bin)","")
-CCProg = C:/GNU/MinGW-m68k-elf-glo-$(COMPILER_C_VERSION)/bin/m68k-elf-gcc
-ARProg = C:/GNU/MinGW-m68k-elf-glo-$(COMPILER_C_VERSION)/bin/m68k-elf-ar
-ARANProg = C:/GNU/MinGW-m68k-elf-glo-$(COMPILER_C_VERSION)/bin/m68k-elf-ranlib
-readelf	= C:/GNU/MinGW-m68k-elf-glo-$(COMPILER_C_VERSION)/bin/m68k-elf-readelf
-stripelf = C:/GNU/MinGW-m68k-elf-glo-$(COMPILER_C_VERSION)/bin/m68k-elf-strip
-objdump = C:/GNU/MinGW-m68k-elf-glo-$(COMPILER_C_VERSION)/bin/m68k-elf-objdump
+CCINC1 = C:/GNU/m68k-$(FORMAT)-gcc-4.9.3/m68k-$(FORMAT)/include
+CCINC2 = C:/GNU/m68k-$(FORMAT)-gcc-4.9.3/lib/gcc/m68k-$(FORMAT)/4.9.3/include
+endif
+# gcc libraries
+ifneq ("$(wildcard C:/GNU/m68k-$(FORMAT)-$(COMPILER_SELECT)/lib/gcc/m68k-$(FORMAT)/$(COMPILER_C_VERSION)/mcpu32)", "")
+DIRLIBGCC = C:/GNU/m68k-$(FORMAT)-$(COMPILER_SELECT)/lib/gcc/m68k-$(FORMAT)/$(COMPILER_C_VERSION)
+DIRLIBC = C:/GNU/m68k-$(FORMAT)-$(COMPILER_SELECT)/m68k-$(FORMAT)/lib
 else
-ifneq ("$(wildcard C:/GNU/m68k-elf-gcc-$(COMPILER_C_VERSION)/bin)","")
-CCProg = C:/GNU/m68k-elf-gcc-$(COMPILER_C_VERSION)/bin/m68k-elf-gcc
-ARProg = C:/GNU/m68k-elf-gcc-$(COMPILER_C_VERSION)/bin/m68k-elf-ar
-ARANProg = C:/GNU/m68k-elf-gcc-$(COMPILER_C_VERSION)/bin/m68k-elf-ranlib
-readelf	= C:/GNU/m68k-elf-gcc-$(COMPILER_C_VERSION)/bin/m68k-elf-readelf
-stripelf = C:/GNU/m68k-elf-gcc-$(COMPILER_C_VERSION)/bin/m68k-elf-strip
-objdump = C:/GNU/m68k-elf-gcc-$(COMPILER_C_VERSION)/bin/m68k-elf-objdump
-else
-$(error COMPILER_C_VERSION is not set or wrongly dispatched)
-endif
-endif
-endif
-endif
-# ELF gcc headers library
-ifneq ("$(wildcard C:/GNU/MinGW-m68k-elf-glo-$(COMPILER_C_VERSION)/m68k-elf/include)","")
-CCINC1 = C:/GNU/MinGW-m68k-elf-glo-$(COMPILER_C_VERSION)/m68k-elf/include
-CCINC2 = C:/GNU/MinGW-m68k-elf-glo-$(COMPILER_C_VERSION)/lib/gcc/m68k-elf/$(COMPILER_C_VERSION)/include
-else
-ifneq ("$(wildcard C:/GNU/m68k-elf-gcc$(COMPILER_C_VERSION)/m68k-elf/include)","")
-CCINC1 = C:/GNU/m68k-elf-gcc$(COMPILER_C_VERSION)/m68k-elf/include
-CCINC2 = C:/GNU/m68k-elf-gcc$(COMPILER_C_VERSION)/lib/gcc/m68k-elf/$(COMPILER_C_VERSION)/include
-else
-ifneq ("$(wildcard C:/GNU/m68k-elf-$(COMPILER_C_VERSION)/m68k-elf/m68k-elf/include)","")
-CCINC1 = C:/GNU/m68k-elf-$(COMPILER_C_VERSION)/m68k-elf/m68k-elf/include
-CCINC2 = C:/GNU/m68k-elf-$(COMPILER_C_VERSION)/m68k-elf/lib/gcc/m68k-elf/$(COMPILER_C_VERSION)/include
-else
-ifneq ("$(wildcard C:/GNU/m68k-elf-gcc-$(COMPILER_C_VERSION)/m68k-elf/include)","")
-CCINC1 = C:/GNU/m68k-elf-gcc-$(COMPILER_C_VERSION)/m68k-elf/include
-CCINC2 = C:/GNU/m68k-elf-gcc-$(COMPILER_C_VERSION)/lib/gcc/m68k-elf/$(COMPILER_C_VERSION)/include
-else
-CCINC1 = C:/GNU/m68k-elf-gcc-9.2.0/m68k-elf/include
-CCINC2 = C:/GNU/m68k-elf-gcc-9.2.0/lib/gcc/m68k-elf/9.2.0/include
-endif
-endif
-endif
-endif
-# ELF gcc libraries
-ifneq ("$(wildcard C:/GNU/m68k-elf-gcc-$(COMPILER_C_VERSION)/lib/gcc/m68k-elf/$(COMPILER_C_VERSION)/mcpu32)", "")
-DIRLIBGCC = C:/GNU/m68k-elf-gcc-$(COMPILER_C_VERSION)/lib/gcc/m68k-elf/$(COMPILER_C_VERSION)
-DIRLIBC = C:/GNU/m68k-elf-gcc-$(COMPILER_C_VERSION)/m68k-elf/lib
-else
-DIRLIBGCC = C:/GNU/m68k-elf-gcc4.9.3/lib/gcc/m68k-elf/4.9.3
-DIRLIBC = C:/GNU/m68k-elf-gcc4.9.3/m68k-elf/lib
-endif
-#
-# aout format
-else
-ifeq ($(FORMAT), aout)
-# aout gcc compiler
-ifneq ("$(wildcard C:/GNU/xgcc-$(COMPILER_C_VERSION)-m68k/cygwin/usr/local/m68k-aout/bin)","")
-CCProg = C:/GNU/xgcc-$(COMPILER_C_VERSION)-m68k/cygwin/usr/local/m68k-aout/bin/m68k-aout-gcc
-else
-$(error COMPILER_C_VERSION is not set or wrongly dispatched)
-endif
-# aout gcc headers library
-ifneq ("$(wildcard C:/GNU/xgcc-$(COMPILER_C_VERSION)-m68k/cygwin/usr/local/m68k-aout/lib/gcc-lib/m68k-aout/$(COMPILER_C_VERSION)/include)","")
-CCINC1 = C:/GNU/xgcc-$(COMPILER_C_VERSION)-m68k/cygwin/usr/local/m68k-aout/lib/gcc-lib/m68k-aout/$(COMPILER_C_VERSION)/include
-endif
-#
-# coff format
-else
-ifeq ($(FORMAT), coff)
-# coff gcc compiler
-ifeq ($(COMPILER_C_VERSION), 2.91.66)
-CCProg = C:/GNU/gcc-m68k-win32-r6/gcc-m68k/bin/m68k-coff-gcc
-else
-$(error COMPILER_C_VERSION is not set or wrongly dispatched)
-endif
-# coff gcc headers library
-ifeq ($(COMPILER_C_VERSION), 2.91.66)
-CCINC1 = C:/GNU/gcc-m68k-win32-r6/gcc-m68k/m68k-coff/include
-endif
-#
-# Unknown format
-else
-$(error FORMAT is not set or wrongly dispatched for $(COMPILER_SELECT))
-endif
-endif
+DIRLIBGCC = C:/GNU/m68k-$(FORMAT)-gcc-4.9.3/lib/gcc/m68k-$(FORMAT)/4.9.3
+DIRLIBC = C:/GNU/m68k-$(FORMAT)-gcc-4.9.3/m68k-$(FORMAT)/lib
 endif
 #
 # VBCC
