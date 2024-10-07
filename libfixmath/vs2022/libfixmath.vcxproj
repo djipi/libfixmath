@@ -82,15 +82,17 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);FIXMATH_NO_ROUNDING;FIXMATH_NO_OVERFLOW;FIXMATH_NO_64BIT;FIXMATH_OPTIMIZE_8BIT;FIXMATH_SIN_LUT;FIXMATH_FAST_SIN;FIXMATH_DEFINEVALUES;FIXMATH_NO_CTYPE</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);FIXMATH_FAST_SIN;FIXMATH_NO_64BIT;FIXMATH_CACHE;FIXMATH_HARD_DIVISION;FIXMATH_NO_OVERFLOW;FIXMATH_NO_ROUNDING;FIXMATH_NO_OPTIMIZE_8BIT;FIXMATH_CTYPE;FIXMATH_DEFINEVALUES;FIXMATH_SIN_LUT</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AssemblerListingLocation>$(IntDir)asm\</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)obj\</ObjectFileName>
@@ -106,7 +108,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;FIXMATH_NO_ROUNDING;FIXMATH_NO_OVERFLOW;FIXMATH_NO_64BIT;FIXMATH_OPTIMIZE_8BIT;FIXMATH_SIN_LUT;FIXMATH_FAST_SIN;FIXMATH_DEFINEVALUES;FIXMATH_NO_CTYPE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;FIXMATH_FAST_SIN;FIXMATH_NO_64BIT;FIXMATH_CACHE;FIXMATH_HARD_DIVISION;FIXMATH_NO_OVERFLOW;FIXMATH_NO_ROUNDING;FIXMATH_NO_OPTIMIZE_8BIT;FIXMATH_CTYPE;FIXMATH_DEFINEVALUES;FIXMATH_SIN_LUT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AssemblerListingLocation>$(IntDir)asm\</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)obj\</ObjectFileName>
@@ -122,7 +124,7 @@
     <ClCompile>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);FIXMATH_NO_ROUNDING;FIXMATH_NO_OVERFLOW;FIXMATH_NO_64BIT;FIXMATH_OPTIMIZE_8BIT;FIXMATH_SIN_LUT;FIXMATH_FAST_SIN</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);FIXMATH_FAST_SIN;FIXMATH_NO_64BIT;FIXMATH_CACHE;FIXMATH_HARD_DIVISION;FIXMATH_NO_OVERFLOW;FIXMATH_NO_ROUNDING;FIXMATH_NO_OPTIMIZE_8BIT;FIXMATH_CTYPE;FIXMATH_DEFINEVALUES;FIXMATH_SIN_LUT</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AssemblerListingLocation>$(IntDir)asm\</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)obj\</ObjectFileName>
@@ -143,7 +145,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;FIXMATH_NO_ROUNDING;FIXMATH_NO_OVERFLOW;FIXMATH_NO_64BIT;FIXMATH_OPTIMIZE_8BIT;FIXMATH_SIN_LUT;FIXMATH_FAST_SIN;FIXMATH_DEFINEVALUES;FIXMATH_NO_CTYPE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;FIXMATH_FAST_SIN;FIXMATH_NO_64BIT;FIXMATH_CACHE;FIXMATH_HARD_DIVISION;FIXMATH_NO_OVERFLOW;FIXMATH_NO_ROUNDING;FIXMATH_NO_OPTIMIZE_8BIT;FIXMATH_CTYPE;FIXMATH_DEFINEVALUES;FIXMATH_SIN_LUT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AssemblerListingLocation>$(IntDir)asm\</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)obj\</ObjectFileName>
