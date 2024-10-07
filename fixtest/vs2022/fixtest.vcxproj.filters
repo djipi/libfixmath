@@ -21,15 +21,9 @@
     <ClCompile Include="..\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\fix_args.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\hiclock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\fix_args.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

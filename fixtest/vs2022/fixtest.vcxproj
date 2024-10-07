@@ -77,19 +77,22 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IntDir>$(Platform)\$(Configuration)</IntDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>WIN32;__WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);FIXTEST_PRINT;FIXTEST_NO_GENARGS;FIXMATH_NO_ROUNDING;FIXMATH_NO_OVERFLOW;FIXMATH_NO_64BIT;FIXMATH_OPTIMIZE_8BIT;FIXMATH_SIN_LUT;FIXMATH_FAST_SIN;FIXMATH_DEFINEVALUES;FIXMATH_NO_CTYPE</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;__WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);FIXMATH_FAST_SIN;FIXMATH_NO_64BIT;FIXMATH_CACHE;FIXMATH_HARD_DIVISION;FIXMATH_NO_OVERFLOW;FIXMATH_NO_ROUNDING;FIXMATH_NO_OPTIMIZE_8BIT;FIXMATH_CTYPE;FIXMATH_DEFINEVALUES;FIXMATH_SIN_LUT</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AssemblerListingLocation>$(IntDir)asm\</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)obj\</ObjectFileName>
@@ -111,8 +114,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);FIXMATH_DEFINEVALUES</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);FIXMATH_FAST_SIN;FIXMATH_NO_64BIT;FIXMATH_CACHE;FIXMATH_HARD_DIVISION;FIXMATH_NO_OVERFLOW;FIXMATH_NO_ROUNDING;FIXMATH_NO_OPTIMIZE_8BIT;FIXMATH_CTYPE;FIXMATH_DEFINEVALUES;FIXMATH_SIN_LUT</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,8 +129,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);FIXMATH_FAST_SIN;FIXMATH_NO_64BIT;FIXMATH_CACHE;FIXMATH_HARD_DIVISION;FIXMATH_NO_OVERFLOW;FIXMATH_NO_ROUNDING;FIXMATH_NO_OPTIMIZE_8BIT;FIXMATH_CTYPE;FIXMATH_DEFINEVALUES;FIXMATH_SIN_LUT</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,8 +144,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);FIXMATH_FAST_SIN;FIXMATH_NO_64BIT;FIXMATH_CACHE;FIXMATH_HARD_DIVISION;FIXMATH_NO_OVERFLOW;FIXMATH_NO_ROUNDING;FIXMATH_NO_OPTIMIZE_8BIT;FIXMATH_CTYPE;FIXMATH_DEFINEVALUES;FIXMATH_SIN_LUT</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,12 +156,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\fix_args.c" />
     <ClCompile Include="..\hiclock.c" />
     <ClCompile Include="..\main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\fix_args.h" />
     <ClInclude Include="..\hiclock.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
