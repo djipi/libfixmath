@@ -49,6 +49,26 @@ Note: will be automatically defined if `FIXMATH_OPTIMIZE_8BIT` is defined.
 - `#ifndef`: Do not optimize for processors with 8-bit multiplication like Atmel AVR. 
 - `#ifdef`: Optimize for processors like Atmel AVR.  Also defines `FIXMATH_NO_HARD_DIVISION` automatically in `fix16.h`.
 
+#### `FIXMATH_NO_CTYPE`
+
+- `#ifndef`: Use the `ctype.h`.
+- `#ifdef`: Use in-line definition of some functions.
+
+#### `FIXMATH_DEFINEVALUES`
+
+- `#ifndef`: Use const variables instead of defines values.
+- `#ifdef`: Use defines values instead of const variables.
+
+### `FIXMATH_SIN_LUT`
+
+- `#ifndef`: Create the values in arrays.
+- `#ifdef`: Use the `fix16_trig_sin_lut.h` generated from fixsingen tool.
+
+### `FIXMATH_SATURATING_ARITHMETIC`
+
+- `#ifndef`: TBC
+- `#ifdef`: TBC
+
 # Include the `libfixmath` library in your CMake Project
 
 The simplest way to use `libfixmath` as a dependency is with CMake's [FetchContent API](https://cmake.org/cmake/help/latest/module/FetchContent.html).
