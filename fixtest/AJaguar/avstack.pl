@@ -50,7 +50,7 @@ use strict;
 
 # Configuration: set these as appropriate for your architecture/project.
 
-my $objdump = "C:/GNU/m68k-elf-gcc4.9.3/bin/m68k-elf-objdump.exe";
+my $objdump = "C:/GNU/m68k-elf-gcc-13.2.0/bin/m68k-elf-objdump.exe";
 my $call_cost = 4;
 
 # First, we need to read all object and corresponding .su files. We're
