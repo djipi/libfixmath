@@ -1,9 +1,9 @@
-/* JagELFls script for ELF Debug executable */
+/* JagELFls script for ELF executable */
 
 /* Memory description */
 MEMORY
 {
-	ram (rw) : ORIGIN = 0x4000 , LENGTH = 0x1FC000					/* Jaguar 8MB RAM information for emulation purposes */
+	ram (rw) : ORIGIN = 0x4000 , LENGTH = 0x1FC000					/* Jaguar 2MB RAM information for emulation purposes */
 	rom (rx) : ORIGIN = 0x802000 , LENGTH = 0x5FE000				/* Jaguar 6MB ROM information */
 	dbg	 : ORIGIN = 0, LENGTH = 0x7FFFFF
 }
@@ -30,7 +30,7 @@ SECTIONS
 	.text:
 	{
 		/* . = ALIGN(2); */											/* M68000 preference alignement */
-		*(.text	CODE);												/* Code section */
+		*(.text*	CODE);												/* Code section */
 	} >rom
 
 	.data:
