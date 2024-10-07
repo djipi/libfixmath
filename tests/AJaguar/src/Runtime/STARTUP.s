@@ -222,7 +222,9 @@ _text_start:
 ; Exit
 ;
 _exit:
-	trap	#0
+;	trap	#0
+_exit_loop:
+	bra.s	_exit_loop
 ;
 ; return to game code (for some reason the code call this function right a the main() start)
 ;
