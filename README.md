@@ -59,12 +59,12 @@ Note: will be automatically defined if `FIXMATH_OPTIMIZE_8BIT` is defined.
 - `#ifndef`: Use const variables instead of defines values.
 - `#ifdef`: Use defines values instead of const variables.
 
-### `FIXMATH_SIN_LUT`
+#### `FIXMATH_SIN_LUT`
 
 - `#ifndef`: Create the values in arrays.
 - `#ifdef`: Use the `fix16_trig_sin_lut.h` generated from fixsingen tool.
 
-### `FIXMATH_SATURATING_ARITHMETIC`
+#### `FIXMATH_SATURATING_ARITHMETIC`
 
 - `#ifndef`: TBC
 - `#ifdef`: TBC
